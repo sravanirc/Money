@@ -1,29 +1,27 @@
 defmodule Money do
-  defstruct []
-  def new(amount, currency) do
-         %{amount: Float.floor(amount/100.00) , currency: currency}
-  end  
+  defstruct amount: nil , currency: nil
+ 
   def convert(%{amount: amount, currency: from_currency}, to_currency) do
      case from_currency do
       :CAD ->
         if to_currency == :EUR do
-          Money.new(amount * 1.39, :EUR)
+          %Money{amount: amount * 1.39, currency: :EUR}
         else
-          Money.new(amount * 1.29, :USD)
+          %Money{amount: amount * 1.29, currency: :USD}
         end
 
       :EUR ->
         if to_currency == :CAD do
-          Money.new(round(amount / 1.39), :CAD)
+          %Money{amount: round(amount / 1.39), currency: :CAD}
         else
-          Money.new(round(amount / 1.29), :USD)
+          %Money{amount: round(amount / 1.29), currency: :USD}
         end
 
       :USD ->
         if to_currency == :CAD do
-          Money.new(round(amount / 1.29), :CAD)
+         %Money{amount: round(amount / 1.29), currency: :CAD}
         else
-          Money.new(round(amount *1.08), :USD)
+          %Money{amount: round(amount *1.08), currency: :USD}
         end
       _ ->
         " Invalid currency"
@@ -34,22 +32,21 @@ defmodule Money do
     %{amount: first_amount, currency: first_currency} = money_1
     %{amount: second_amount,currency: second_currency} = money_2
     if(first_currency == second_currency) do
-      IO.inspect(first_amount+second_amount)
-      Money.new(first_amount + second_amount, first_currency)
+      %Money{amount: first_amount + second_amount, currency: first_currency}
     else
       "Unable to add different currencies, please use Convert() to change them to same currency"
     end
   end
   def multiply(money,multiple) do
        %{amount: amount, currency: currency} = money
-        Money.new(amount*multiple, currency)
+        %Money{amount: amount*multiple, currency: currency}
      end
 
      def subtract(money_1,money_2) do
       %{amount: first_amount, currency: first_currency} = money_1
       %{amount: second_amount,currency: second_currency} = money_2
       if(first_currency == second_currency) do
-        Money.new(first_amount-second_amount, first_currency)
+        %Money{amount: first_amount-second_amount, currency: first_currency}
       else
         "Unable to subtract different currencies, please use Convert() to change them to same currency"
       end
